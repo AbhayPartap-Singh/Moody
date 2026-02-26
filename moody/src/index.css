@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #2c2c54);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.app {
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 25px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.video-container {
+  position: relative;
+  margin-top: 15px;
+}
+
+canvas {
+  border-radius: 12px;
+  border: 3px solid #00ffcc;
+}
+
+.hidden-video {
+  display: none;
+}
+
+.emotion-text {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #00ffcc;
+}
