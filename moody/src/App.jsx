@@ -1,10 +1,10 @@
-import EmotionDetector from "./components/EmotionDetector";
+import FaceExpression from "./components/faceExpression";
 
 function App() {
   return (
-    <div className="app">
-      <h1>AI Emotion Detector</h1>
-      <EmotionDetector />
+    <div style={{ textAlign: "center", marginTop: "20px" }}>
+      <h1>Moody</h1>
+      <FaceExpression />
     </div>
   );
 }
