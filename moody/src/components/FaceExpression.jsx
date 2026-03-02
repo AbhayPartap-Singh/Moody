@@ -1,6 +1,10 @@
 import { useRef, useState } from "react";
 import { initLandmarker } from "../utils/initLandmarker";
 import { predictEmotionFromBlendshapes } from "../utils/blendshapeEmotionModel";
+import {
+  startFaceDetection,
+  stopFaceDetection,
+} from "../utils/faceDetectionService";
 
 export default function FaceExpression() {
   const videoRef = useRef(null);
@@ -11,61 +15,29 @@ export default function FaceExpression() {
   const [expression, setExpression] = useState("Click Start");
   const [isRunning, setIsRunning] = useState(false);
 
-  const startCamera = async () => {
+  const handleStart = async () => {
     if (isRunning) return;
-
-    await initLandmarker({
-      landmarkerRef,
-      videoRef,
-      streamRef,
-    });
 
     setIsRunning(true);
     setExpression("Detecting...");
 
-    detectLoop();
+    await startFaceDetection({
+      landmarkerRef,
+      videoRef,
+      streamRef,
+      setExpression,
+      animationRef,
+      initLandmarker,
+      predictEmotionFromBlendshapes,
+    });
   };
 
-  const detectLoop = () => {
-    const detectFrame = () => {
-      if (!landmarkerRef.current || !videoRef.current) return;
-
-      const results = landmarkerRef.current.detectForVideo(
-        videoRef.current,
-        performance.now()
-      );
-
-      if (results.faceBlendshapes?.length > 0) {
-        const blendshapes =
-          results.faceBlendshapes[0].categories;
-
-        const emotion =
-          predictEmotionFromBlendshapes(blendshapes);
-
-        setExpression(emotion);
-      } else {
-        setExpression("No Face Detected");
-      }
-
-      animationRef.current =
-        requestAnimationFrame(detectFrame);
-    };
-
-    detectFrame();
-  };
-
-  const stopCamera = () => {
-    if (animationRef.current)
-      cancelAnimationFrame(animationRef.current);
-
-    if (landmarkerRef.current)
-      landmarkerRef.current.close();
-
-    if (videoRef.current?.srcObject) {
-      videoRef.current.srcObject
-        .getTracks()
-        .forEach((track) => track.stop());
-    }
+  const handleStop = () => {
+    stopFaceDetection({
+      landmarkerRef,
+      videoRef,
+      animationRef,
+    });
 
     setIsRunning(false);
     setExpression("Camera Stopped");
@@ -77,11 +49,11 @@ export default function FaceExpression() {
 
       <div style={{ marginBottom: "15px" }}>
         {!isRunning ? (
-          <button onClick={startCamera}>
+          <button onClick={handleStart}>
             Start Camera
           </button>
         ) : (
-          <button onClick={stopCamera}>
+          <button onClick={handleStop}>
             Stop Camera
           </button>
         )}

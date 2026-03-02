@@ -74,16 +74,16 @@ function loginController(){async (req,res)=>{
     const user = await userModel.findOne({
         $or:[
             {
-                username:username
+                username
             },
             {
-                email:email
+                email
             }
         ]
     })
     if(!user){
-        return res.status(404).json({
-            message:"user not found"
+        return res.status(400).json({
+            message:"invalid credentials"
         })
     }
    // {const hash = crypto.createHash('md5').update(password).diggest('hex')
@@ -105,11 +105,10 @@ function loginController(){async (req,res)=>{
      res.status(200).json({
         message:"user logged in",
         user:{
-            username:user.username,
+                id:user._id ,
             email:user.email,
-            bio:user.bio,
-            password:user.password,
-            ProfileImage:user.ProfileImage
+            password:user.password
+           
         }
      })
 
