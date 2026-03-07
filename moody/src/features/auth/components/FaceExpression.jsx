@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
-import { initLandmarker } from "../utils/initLandmarker";
-import { predictEmotionFromBlendshapes } from "../utils/blendshapeEmotionModel";
+import { initLandmarker } from "../../../utils/initLandmarker";
+import { predictEmotionFromBlendshapes } from "../../../utils/blendshapeEmotionModel";
+import Navbar from "./Navbar";
 import {
   startFaceDetection,
   stopFaceDetection,
-} from "../utils/faceDetectionService";
+} from "../../../utils/faceDetectionService";
+
 
 export default function FaceExpression() {
   const videoRef = useRef(null);
@@ -45,6 +47,7 @@ export default function FaceExpression() {
 
   return (
     <div className="card">
+      <Navbar/>
       <h2 className="emotion-text">{expression}</h2>
 
       <div style={{ marginBottom: "15px" }}>

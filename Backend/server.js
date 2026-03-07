@@ -1,11 +1,11 @@
 require("dotenv").config()
+require('./src/config/cache')   // FIXED
+
 const app = require("./src/app")
 const connectToDb = require("./src/config/database")
 
 connectToDb()
 
-app.listen(3000,()=>{
+app.listen(3000, () => {
     console.log("server is running on port 3000")
-    //console.log("ENV:", process.env.MONGO_URI)
-
 })

@@ -1,11 +1,11 @@
-import FaceExpression from "./components/faceExpression";
+import AppRoutes from "./AppRoutes";
+import { AuthProvider } from "./features/auth/auth.context";
 
 function App() {
   return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h1>Moody</h1>
-      <FaceExpression />
-    </div>
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   );
 }
 

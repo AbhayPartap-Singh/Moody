@@ -1,24 +1,36 @@
+const userModel = require('../model/user.model')
+const blacklistModel = require('../model/blacklist.model')
+const redis = require('../config/cache')
 const jwt = require('jsonwebtoken')
-async function identifyUser(req,res,next){
+
+async function authUser(req, res, next) {
     const token = req.cookies.token
-      if (!token) {
+
+    if (!token) {
         return res.status(401).json({
             message: "No token provided"
         })
     }
 
-     let decoded = null
-    try{
-       decoded= jwt.verify(token,process.env.JWT_SECRET)
-    }
-    catch(err){
-       return res.status(401).json({
-        message:'token invalid'
-       })
-    }
-    req.user = decoded
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-    next()
+        const isBlacklisted = await redis.get(token)
+
+        if (isBlacklisted) {
+            return res.status(401).json({
+                message: "Token blacklisted"
+            })
+        }
+
+        req.user = decoded
+        next()
+
+    } catch (err) {
+        return res.status(401).json({
+            message: "Token invalid"
+        })
+    }
 }
 
-module.exports =  identifyUser
+module.exports = authUser
