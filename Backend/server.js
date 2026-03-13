@@ -1,11 +1,15 @@
-require("dotenv").config()
-require('./src/config/cache')   // FIXED
+require("dotenv").config();
+require("./src/config/cache");   // Redis or caching setup
 
-const app = require("./src/app")
-const connectToDb = require("./src/config/database")
+const app = require("./src/app");
+const connectToDb = require("./src/config/database");
 
-connectToDb()
+const PORT = process.env.PORT || 5000;
 
-app.listen(3000, () => {
-    console.log("server is running on port 3000")
-})
+// Connect Database
+connectToDb();
+
+// Start Server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});

@@ -1,61 +1,45 @@
 // utils/faceDetectionService.js
-
-export async function startFaceDetection({
+export const startFaceDetection = async ({
   landmarkerRef,
   videoRef,
   streamRef,
-  setExpression,
   animationRef,
   initLandmarker,
   predictEmotionFromBlendshapes,
-}) {
-  await initLandmarker({
-    landmarkerRef,
-    videoRef,
-    streamRef,
-  });
+  onEmotionDetected, // callback for each frame
+}) => {
+  await initLandmarker({ landmarkerRef, videoRef, streamRef });
 
   const detectFrame = () => {
     if (!landmarkerRef.current || !videoRef.current) return;
 
-    const results = landmarkerRef.current.detectForVideo(
-      videoRef.current,
-      performance.now()
-    );
+    const results = landmarkerRef.current.detectForVideo(videoRef.current, performance.now());
 
     if (results.faceBlendshapes?.length > 0) {
-      const blendshapes =
-        results.faceBlendshapes[0].categories;
+      const blendshapes = results.faceBlendshapes[0].categories;
+      const emotion = predictEmotionFromBlendshapes(blendshapes);
 
-      const emotion =
-        predictEmotionFromBlendshapes(blendshapes);
-
-      setExpression(emotion);
-    } else {
-      setExpression("No Face Detected");
+      if (onEmotionDetected) onEmotionDetected(emotion);
+    } else if (onEmotionDetected) {
+      onEmotionDetected("No Face Detected");
     }
 
-    animationRef.current =
-      requestAnimationFrame(detectFrame);
+    animationRef.current = requestAnimationFrame(detectFrame);
   };
 
   detectFrame();
-}
+};
 
-export function stopFaceDetection({
-  landmarkerRef,
-  videoRef,
-  animationRef,
-}) {
-  if (animationRef.current)
-    cancelAnimationFrame(animationRef.current);
+export const stopFaceDetection = ({ landmarkerRef, videoRef, animationRef, streamRef }) => {
+  if (animationRef.current) cancelAnimationFrame(animationRef.current);
 
-  if (landmarkerRef.current)
-    landmarkerRef.current.close();
+  if (landmarkerRef.current) landmarkerRef.current.close();
 
   if (videoRef.current?.srcObject) {
-    videoRef.current.srcObject
-      .getTracks()
-      .forEach((track) => track.stop());
+    videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
   }
-}
+
+  if (streamRef?.current) {
+    streamRef.current.getTracks().forEach((track) => track.stop());
+  }
+};

@@ -5,7 +5,6 @@ import "../style/form.scss";
 import Navbar from "../components/Navbar";
 
 const Login = () => {
-
   const { loading, handleLogin } = useAuth();
   const navigate = useNavigate();
 
@@ -19,7 +18,8 @@ const Login = () => {
       await handleLogin(email, password);
       navigate("/");
     } catch (error) {
-      console.error(error);
+      console.error("Login Error:", error);
+      alert("Login failed. Please check your credentials.");
     }
   }
 
@@ -33,22 +33,26 @@ const Login = () => {
         <input
           type="email"
           placeholder="Enter email"
+          value={email}
+          required
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
           type="password"
           placeholder="Enter password"
+          value={password}
+          required
           onChange={(e) => setPassword(e.target.value)}
         />
 
         <button disabled={loading}>
-          {loading ? "Logging in..." : "Submit"}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
 
       <p>
-        Don't have account: <Link to="/register">Register</Link>
+        Don't have an account? <Link to="/register">Register</Link>
       </p>
     </div>
   );

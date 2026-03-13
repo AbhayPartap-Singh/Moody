@@ -1,0 +1,243 @@
+.player-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.no-song {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 30px;
+  border-radius: 15px;
+  backdrop-filter: blur(15px);
+  text-align: center;
+  color: #cfd600;
+  font-size: 16px;
+}
+
+.player-card {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.player-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Song Image */
+.player-image {
+  width: 100%;
+  height: 250px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 3px solid #f50072;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-image {
+  font-size: 80px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Song Info */
+.player-info {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.song-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+.song-mood {
+  font-size: 14px;
+  color: #cfd600;
+  margin: 0;
+}
+
+/* Progress Container */
+.progress-container {
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.progress-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #00f5d4, #00bbf9);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 245, 212, 0.5);
+}
+
+.progress-bar::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #00f5d4, #00bbf9);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 245, 212, 0.5);
+  border: none;
+}
+
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Player Controls */
+.player-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+}
+
+.control-btn {
+  padding: 12px 18px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #00f5d4, #00bbf9);
+  color: #111;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 245, 212, 0.4);
+  white-space: nowrap;
+}
+
+.control-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 245, 212, 0.7);
+}
+
+.control-btn:active {
+  transform: scale(0.96);
+}
+
+.control-btn.play-pause {
+  padding: 12px 28px;
+  font-size: 16px;
+  min-width: 120px;
+}
+
+.control-btn.backward,
+.control-btn.forward {
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+/* Speed Control */
+.speed-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.speed-control label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #cfd600;
+}
+
+.speed-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.speed-btn {
+  padding: 8px 14px;
+  font-size: 12px;
+  border-radius: 8px;
+  border: 2px solid #00f5d4;
+  background: transparent;
+  color: #00f5d4;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.speed-btn:hover {
+  background: rgba(0, 245, 212, 0.2);
+}
+
+.speed-btn.active {
+  background: linear-gradient(90deg, #00f5d4, #00bbf9);
+  color: #111;
+  border-color: #00bbf9;
+  box-shadow: 0 0 15px rgba(0, 245, 212, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .player-image {
+    height: 200px;
+  }
+
+  .song-title {
+    font-size: 18px;
+  }
+
+  .control-btn {
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+  .control-btn.play-pause {
+    min-width: 100px;
+    padding: 10px 20px;
+  }
+
+  .speed-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .main-controls {
+    gap: 10px;
+  }
+
+  .speed-buttons {
+    gap: 6px;
+  }
+}

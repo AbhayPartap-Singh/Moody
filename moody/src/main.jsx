@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { AuthProvider } from "./features/auth/auth.context";
+import { AuthProvider } from "./features/auth/context/AuthContext";
+import { SongProvider } from "./features/home/Context/SongContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <App />
+      <SongProvider>
+        <App />
+      </SongProvider>
+      
     </AuthProvider>
   </React.StrictMode>
 );

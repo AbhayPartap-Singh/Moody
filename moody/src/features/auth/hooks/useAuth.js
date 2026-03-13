@@ -1,9 +1,13 @@
 import { login, register, getMe, logout } from "../services/auth.api";
 import { useContext } from "react";
-import { AuthContext } from "../auth.context";
+import { AuthContext } from "../context/AuthContext";
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuth must be used within AuthProvider");
+  }
 
   const { user, setUser, loading, setLoading } = context;
 
@@ -14,19 +18,21 @@ export const useAuth = () => {
       setUser(response.user);
       return response;
     } catch (error) {
+      console.error("Register error:", error);
       throw error;
     } finally {
       setLoading(false);
     }
   }
 
-  async function handleLogin(username, password) {
+  async function handleLogin(email, password) {
     setLoading(true);
     try {
-      const response = await login(username, password);
+      const response = await login(email, password);
       setUser(response.user);
       return response;
     } catch (error) {
+      console.error("Login error:", error);
       throw error;
     } finally {
       setLoading(false);
@@ -40,6 +46,7 @@ export const useAuth = () => {
       setUser(response.user);
       return response;
     } catch (error) {
+      console.error("GetMe error:", error);
       throw error;
     } finally {
       setLoading(false);
@@ -53,13 +60,13 @@ export const useAuth = () => {
       setUser(null);
       return response;
     } catch (error) {
+      console.error("Logout error:", error);
       throw error;
     } finally {
       setLoading(false);
     }
   }
 
-  // 🔥 THIS WAS MISSING
   return {
     user,
     loading,
