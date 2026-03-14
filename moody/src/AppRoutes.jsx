@@ -13,8 +13,7 @@ function AppRoutes() {
           path="/"
           element={
            <Protected>
-              <div style={{ textAlign: "center", marginTop: "20px" }}>
-                <h1>Moody</h1>
+              <div style={{ textAlign: "center", marginTop: "1px" }}>
                 <Home/>
               </div>
               </Protected>

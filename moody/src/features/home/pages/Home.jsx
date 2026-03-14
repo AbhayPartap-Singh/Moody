@@ -3,26 +3,22 @@ import Player from "../components/Player";
 import { useSong } from "../hooks/useSong";
 
 const Home = () => {
-  const { song, loading } = useSong();
+
+  const { song } = useSong();
 
   return (
-    <div>
+
+    <div className="app-wrapper">
+    
+
+      <h1 className="app-title">MOODY AI</h1>
+
       <FaceExpression />
 
-      {loading ? (
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: "20px",
-            color: "#cfd600",
-          }}
-        >
-          <p>Loading songs...</p>
-        </div>
-      ) : (
-        <Player song={song} />
-      )}
+      <Player song={song} />
+
     </div>
+
   );
 };
 

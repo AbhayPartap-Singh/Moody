@@ -130,62 +130,91 @@ export default function FaceExpression() {
     }
   };
 
-  return (
+ return (
+  <div className="min-h-screen bg-black text-white flex flex-col items-center p-6 gap-8">
 
-    <div className="card">
+    {/* HEADER */}
+    <div className="text-center">
+      <h1 className="text-3xl font-bold">Moody 🎧</h1>
+      <p className="text-gray-400">AI Mood Based Music Player</p>
+    </div>
 
-      <Navbar />
 
-      <h2>{expression}</h2>
+    {/* MAIN SECTION */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl">
 
-      <button onClick={handleStart}>
-        Start Camera
-      </button>
+    <div className="camera-card">
 
-      <div className="video-container">
+      <h2>Camera</h2>
 
-        <video
-          ref={videoRef}
-          width="940"
-          height="350"
-          autoPlay
-          playsInline
-        />
+          <div className="camera-frame">
+          <video ref={videoRef} autoPlay playsInline />
+          </div>
 
-      </div>
+          <button
+          onClick={handleStart}
+          className="scan-btn"
+          >
+          Start Mood Scan
+          </button>
 
-      {songs.length > 0 && (
+          </div>
 
-        <div>
 
-          <h3>Available Songs</h3>
+  <div className="mood-card">
 
-          <ul style={{ listStyle: "none", padding: 0 }}>
+<h2>Detected Emotion</h2>
 
-            {songs.map(song => (
+<p className="mood-text">
+{expression}
+</p>
 
-              <li key={song._id}>
-
-                {song.title}
-
-                <button
-                  onClick={() => handlePlaySong(song)}
-                  style={{ marginLeft: "10px" }}
-                >
-                  Play
-                </button>
-
-              </li>
-
-            ))}
-
-          </ul>
-
-        </div>
-
-      )}
+</div>
 
     </div>
 
-  );
+
+    {/* SONGS */}
+    {songs.length > 0 && (
+
+      <div className="w-full max-w-5xl">
+
+        <h2 className="text-2xl font-semibold mb-6 text-center">
+          Recommended Songs
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          {songs.map(song => (
+
+            <div
+              key={song._id}
+              className="bg-zinc-900 rounded-xl p-5 flex flex-col gap-4 shadow hover:scale-105 transition"
+            >
+
+              <div className="song-card">
+
+               <h3>{song.title}</h3>
+
+               <button
+               onClick={() => handlePlaySong(song)}
+               className="play-btn"
+               >
+               Play
+               </button>
+
+             </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
+      </div>
+
+    )}
+
+  </div>
+);
 }

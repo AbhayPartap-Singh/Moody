@@ -83,7 +83,7 @@
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.2);
   outline: none;
-  -webkit-appearance: none;
+ 
   cursor: pointer;
   margin-bottom: 10px;
 }
