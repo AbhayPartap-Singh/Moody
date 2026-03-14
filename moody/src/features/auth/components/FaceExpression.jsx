@@ -1,7 +1,6 @@
 // src/features/face/FaceExpression.jsx
 
 import { useRef, useState } from "react";
-import Navbar from "./Navbar";
 import { initLandmarker } from "../../../utils/initLandmarker";
 import { predictEmotionFromBlendshapes } from "../../../utils/blendshapeEmotionModel";
 import { stopFaceDetection } from "../../../utils/faceDetectionService";
@@ -15,6 +14,15 @@ const emotionToMoodMap = {
   "😲 Surprise": "surprise",
   "😐 Neutral": "sad",
   Neutral: "sad",
+};
+
+const emotionEmojiMap = {
+  "😊 Happy": "😊",
+  "😢 Sad": "😢",
+  "😡 Angry": "😡",
+  "😠 Angry": "😠",
+  "😲 Surprise": "😲",
+  "😐 Neutral": "😐",
 };
 
 export default function FaceExpression() {
@@ -68,7 +76,6 @@ export default function FaceExpression() {
           emotionsDetected.push(emotion);
 
           setExpression(`Detecting: ${emotion}`);
-
         }
 
         animationRef.current = requestAnimationFrame(detectFrame);
@@ -130,91 +137,65 @@ export default function FaceExpression() {
     }
   };
 
- return (
-  <div className="min-h-screen bg-black text-white flex flex-col items-center p-6 gap-8">
+  const currentEmotion = expression.replace("Detected Mood: ", "");
+  const emoji = emotionEmojiMap[currentEmotion] || "🙂";
 
-    {/* HEADER */}
-    <div className="text-center">
-      <h1 className="text-3xl font-bold">Moody 🎧</h1>
-      <p className="text-gray-400">AI Mood Based Music Player</p>
+  return (
+
+<div className="dashboard">
+
+  <div className="card mood-card">
+
+    <h3>MOOD</h3>
+
+    <div className="mood-box">
+
+      <div className="emoji">
+        {emoji}
+      </div>
+
+      <p className="expression">{expression}</p>
+
     </div>
 
+  </div>
 
-    {/* MAIN SECTION */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl">
+  <div className="card camera-card">
 
-    <div className="camera-card">
+    <h3>Detect your Mood</h3>
 
-      <h2>Camera</h2>
+    <div className="camera-frame">
+      <video ref={videoRef} autoPlay playsInline />
+    </div>
 
-          <div className="camera-frame">
-          <video ref={videoRef} autoPlay playsInline />
-          </div>
+    <button
+      onClick={handleStart}
+      className="scan-btn"
+    >
+      Start Webcam
+    </button>
 
-          <button
-          onClick={handleStart}
-          className="scan-btn"
-          >
-          Start Mood Scan
-          </button>
+  </div>
 
-          </div>
+  <div className="card songs-card">
 
+    <h3>Songs for you</h3>
 
-  <div className="mood-card">
+    {songs.map(song => (
 
-<h2>Detected Emotion</h2>
+      <button
+        key={song._id}
+        className="song-btn"
+        onClick={() => handlePlaySong(song)}
+      >
+        {song.title}
+      </button>
 
-<p className="mood-text">
-{expression}
-</p>
+    ))}
+
+  </div>
 
 </div>
 
-    </div>
-
-
-    {/* SONGS */}
-    {songs.length > 0 && (
-
-      <div className="w-full max-w-5xl">
-
-        <h2 className="text-2xl font-semibold mb-6 text-center">
-          Recommended Songs
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-          {songs.map(song => (
-
-            <div
-              key={song._id}
-              className="bg-zinc-900 rounded-xl p-5 flex flex-col gap-4 shadow hover:scale-105 transition"
-            >
-
-              <div className="song-card">
-
-               <h3>{song.title}</h3>
-
-               <button
-               onClick={() => handlePlaySong(song)}
-               className="play-btn"
-               >
-               Play
-               </button>
-
-             </div>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </div>
-
-    )}
-
-  </div>
 );
 }

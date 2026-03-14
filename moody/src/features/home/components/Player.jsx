@@ -8,7 +8,10 @@ export default function Player() {
   const { song, songs, setSong } = useSong();
 
   const audioRef = useRef(null);
+
   const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [speed, setSpeed] = useState(1);
 
   useEffect(() => {
 
@@ -24,6 +27,25 @@ export default function Player() {
 
   }, [song]);
 
+  useEffect(() => {
+
+    const updateProgress = () => {
+
+      if (!audioRef.current) return;
+
+      const percent =
+        (audioRef.current.currentTime / audioRef.current.duration) * 100;
+
+      setProgress(percent || 0);
+    };
+
+    audioRef.current?.addEventListener("timeupdate", updateProgress);
+
+    return () =>
+      audioRef.current?.removeEventListener("timeupdate", updateProgress);
+
+  }, []);
+
   const togglePlay = () => {
 
     if (!audioRef.current) return;
@@ -35,6 +57,30 @@ export default function Player() {
     }
 
     setIsPlaying(!isPlaying);
+  };
+
+  const forward5 = () => {
+    audioRef.current.currentTime += 5;
+  };
+
+  const backward5 = () => {
+    audioRef.current.currentTime -= 5;
+  };
+
+  const handleSeek = (e) => {
+
+    const width = e.target.clientWidth;
+    const clickX = e.nativeEvent.offsetX;
+
+    const duration = audioRef.current.duration;
+
+    audioRef.current.currentTime = (clickX / width) * duration;
+  };
+
+  const changeSpeed = (value) => {
+
+    audioRef.current.playbackRate = value;
+    setSpeed(value);
   };
 
   const handleNextSong = () => {
@@ -49,36 +95,63 @@ export default function Player() {
   };
 
   if (!song) {
-    return (
-      <p>No song selected. Detect your mood first.</p>
-    );
+    return <p>No song selected. Detect your mood first.</p>;
   }
 
   return (
 
-    <div className="player">
+<div className="player-bar">
 
-      <h4>Now Playing: {song.title}</h4>
+  <span className="song-name">
+    Now Playing: {song.title}
+  </span>
 
-      <audio
-        ref={audioRef}
-        onEnded={handleNextSong}
-        controls
-      />
+  <audio
+    ref={audioRef}
+    onEnded={handleNextSong}
+  />
 
-      <div>
+  <div
+    className="progress-bar"
+    onClick={handleSeek}
+  >
+    <div
+      className="progress"
+      style={{ width: `${progress}%` }}
+    />
+  </div>
 
-        <button onClick={togglePlay}>
-          {isPlaying ? "Pause" : "Play"}
-        </button>
+  <div className="player-controls">
 
-        <button onClick={handleNextSong}>
-          Next
-        </button>
+    <button onClick={backward5}>
+      ⏪ 5s
+    </button>
 
-      </div>
+    <button onClick={togglePlay}>
+      {isPlaying ? "Pause" : "Play"}
+    </button>
 
-    </div>
+    <button onClick={forward5}>
+      5s ⏩
+    </button>
 
-  );
+    <button onClick={handleNextSong}>
+      Next
+    </button>
+
+  </div>
+
+  <select
+    value={speed}
+    onChange={(e) => changeSpeed(e.target.value)}
+  >
+    <option value="0.5">0.5x</option>
+    <option value="1">1x</option>
+    <option value="1.5">1.5x</option>
+    <option value="2">2x</option>
+  </select>
+
+</div>
+
+);
 }

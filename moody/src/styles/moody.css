@@ -2,50 +2,114 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family: Inter, sans-serif;
+font-family:Inter,sans-serif;
 }
 
 body{
-background:#0f0f0f;
+background:linear-gradient(135deg,#0f0f0f,#1a1a2e,#121212);
 color:white;
+min-height:100vh;
+}
+.expression{
+font-size:18px;
+color:beige;
+font-family: cursive;
+}
+h3{
+font-size:24px;
+font-family: cursive;
 }
 
-/* APP LAYOUT */
+/* APP */
 
-.app-wrapper{
-max-width:1200px;
+.moody-app{
+max-width:1100px;
 margin:auto;
-padding:5px 20px;
+padding:40px;
 }
 
-.app-title{
+.moody-title{
+  text-align:center;
+  font-size:64px;
+  font-weight:700;
+  margin-bottom:40px;
+
+  background:linear-gradient(90deg,#ff000d,#0800ff);
+
+  background-clip:text;
+  -webkit-background-clip:text;
+
+  color:transparent;
+}
+.progress-bar{
+width:300px;
+height:6px;
+background:#444;
+border-radius:4px;
+cursor:pointer;
+margin:0 20px;
+}
+
+.progress{
+height:100%;
+background:white;
+border-radius:4px;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+display:grid;
+grid-template-columns:220px 1fr 220px;
+gap:25px;
+margin-bottom:40px;
+}
+
+
+/* GLASS CARD */
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:16px;
+padding:20px;
+box-shadow:0 10px 40px rgba(0,0,0,0.6);
+}
+
+
+/* MOOD */
+
+.mood-box{
+margin-top:20px;
+padding:40px;
+border-radius:12px;
+background:linear-gradient(135deg,#ff00cc,#00d4ff);
 text-align:center;
-font-size:40px;
-font-weight:700;
+}
+
+.emoji{
+font-size:65px;
 margin-bottom:10px;
-margin-top: 1px;
-letter-spacing:2px;
-color: #1db954;
-font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+animation:float 3s infinite ease-in-out;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-6px)}
+100%{transform:translateY(0)}
 }
 
 
-/* CAMERA SECTION */
-
-.camera-card{
-background:#1b1b1b;
-border-radius:14px;
-padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,0.5);
-}
+/* CAMERA */
 
 .camera-frame{
 width:100%;
-height:280px;
+height:220px;
 background:black;
-border-radius:10px;
+border-radius:12px;
 overflow:hidden;
-margin-bottom:20px;
+margin:15px 0;
 }
 
 .camera-frame video{
@@ -54,109 +118,80 @@ height:100%;
 object-fit:cover;
 }
 
-
-/* BUTTON */
-
 .scan-btn{
-background:#1db954;
+padding:10px 20px;
 border:none;
-padding:12px 25px;
-border-radius:8px;
-font-weight:600;
+border-radius:20px;
+background:linear-gradient(90deg,#ff00cc,#00d4ff);
+color:white;
 cursor:pointer;
-transition:0.2s;
+transition:.2s;
 }
 
 .scan-btn:hover{
-background:#1ed760;
+transform:scale(1.05);
 }
 
 
-/* MOOD PANEL */
+/* SONGS */
 
-.mood-card{
-background:#1b1b1b;
-border-radius:14px;
-padding:25px;
-text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.5);
-}
-
-.mood-text{
-font-size:28px;
-font-weight:600;
-margin-top:10px;
-color:#1db954;
-}
-
-
-/* SONG SECTION */
-
-.songs-section{
-margin-top:40px;
-}
-
-.song-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-}
-
-.song-card{
-background:#1b1b1b;
-padding:20px;
-border-radius:12px;
-transition:0.2s;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
-
-.song-card:hover{
-transform:translateY(-5px);
-}
-
-.song-card h3{
-margin-bottom:10px;
-}
-
-.play-btn{
-background:#3b82f6;
+.song-btn{
+display:block;
+width:100%;
+margin:10px 0;
+padding:10px;
 border:none;
-padding:10px 18px;
-border-radius:8px;
+border-radius:10px;
+background:#f1f1f1;
+color:#333;
 cursor:pointer;
-color:white;
+transition:.2s;
 }
 
-.play-btn:hover{
-background:#2563eb;
+.song-btn:hover{
+background:#ddd;
 }
 
 
 /* PLAYER */
 
-.player{
-margin-top:40px;
-background:#181818;
-padding:20px;
-border-radius:14px;
-text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.6);
+.player-bar{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+padding:15px 30px;
+background:linear-gradient(90deg,#00d4ff,#ff00cc);
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-.player h4{
-margin-bottom:10px;
-}
-
-.player button{
-margin:5px;
-padding:10px 15px;
+.player-controls button{
+margin-left:10px;
+padding:8px 14px;
 border:none;
-border-radius:6px;
+border-radius:10px;
+font-family: fantasy;
 cursor:pointer;
-background:#1db954;
-color:white;
+background:linear-gradient(90deg,#df0262,#03bbb2);
+color: aliceblue;
 }
 
-.player button:hover{
-background:#1ed760;
+select{
+padding:8px 14px;
+border:none;
+border-radius:10px;
+font-family: fantasy;
+
+}
+
+.song-btn{
+    padding:10px 14px;
+border:none;
+border-radius:10px;
+font-family: cursive;
+font-size: 15px;
+background:linear-gradient(90deg,#e000f5fd,#037ebb);
+color: aliceblue;
 }

@@ -8,10 +8,9 @@ const Home = () => {
 
   return (
 
-    <div className="app-wrapper">
-    
+    <div className="moody-app">
 
-      <h1 className="app-title">MOODY AI</h1>
+      <h1 className="moody-title">Moody</h1>
 
       <FaceExpression />
 
@@ -20,6 +19,7 @@ const Home = () => {
     </div>
 
   );
+
 };
 
 export default Home;
